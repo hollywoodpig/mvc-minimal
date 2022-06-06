@@ -1,4 +1,5 @@
-<form action="doEdit" method="post">
+<a href="/"><p>back</p></a>
+<form action="/edit" method="post">
 	<input
 		required
 		type="hidden"

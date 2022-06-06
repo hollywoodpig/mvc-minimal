@@ -2,24 +2,12 @@
 	require 'core/Router.php';
 	require 'controllers/ClientController.php';
 
-	// == client ==
+	/* == client == */
 
 	$client = new ClientController();
-
-	// home
-
-	Router::route('/', 'GET', [$client, 'home']);
-
-	// add
-
-	Router::route('/add', 'GET', [$client, 'add']);
-	Router::route('/doAdd', 'POST', [$client, 'doAdd']);
-
-	// edit
-
-	Router::route('/edit', 'GET', [$client, 'edit']);
-	Router::route('/doEdit', 'POST', [$client, 'doEdit']);
-
-	// delete
-
-	Router::route('/doDelete', 'POST', [$client, 'doDelete']);
+	Router::get('/', [$client, 'home']);
+	Router::get('/add', [$client, 'add']);
+	Router::post('/add', [$client, 'doAdd']);
+	Router::get('/edit', [$client, 'edit']);
+	Router::post('/edit', [$client, 'doEdit']);
+	Router::post('/delete', [$client, 'doDelete']);

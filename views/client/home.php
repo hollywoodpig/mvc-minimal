@@ -9,10 +9,10 @@
 		<tr>
 			<td><?= $client['name'] ?></td>
 			<td>
-				<a href="edit?id=<?= $client['id'] ?>"><button>edit</button></a>
+				<a href="/edit?id=<?= $client['id'] ?>"><button>edit</button></a>
 			</td>
 			<td>
-				<form action="doDelete" method="post" style="margin: 0;">
+				<form action="/delete" method="post" style="margin: 0;">
 					<input
 						required
 						type="hidden"

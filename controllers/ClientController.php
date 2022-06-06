@@ -40,6 +40,11 @@
 			}
 
 			$client = $this->clientModel->getClient($id);
+
+			if (empty($client)) {
+				return $this->redirect('/');
+			}
+
 			return $this->render('views/client/edit.php', ['client' => $client]);
 		}
 
