@@ -1,29 +1,61 @@
 <?php
-	class Router {
-		public static function route($url, $method, $callback) {
-			$urlMatches = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == $url;
-			$methodMatches = $_SERVER['REQUEST_METHOD'] == $method;
+class Router
+{
+	/**
+	 * Main route function. By the way, you can't use it outside the class.
+	 *
+	 * @access private
+	 * @param string $method HTTP method
+	 * @param string $route URL path
+	 * @param callable $callback Controller's method, which will be called if the url matches
+	 */
+	private static function route(string $method, string $route, callable $callback)
+	{
+		$routeArray = explode('/', $route);
+		$routeParams = preg_grep('/:\w+/', $routeArray);
+		$routeParsed = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-			if ($urlMatches && $methodMatches) {
-				return $callback();
+		if (empty($routeParams)) {
+			if ($method === $_SERVER['REQUEST_METHOD'] && $route === $routeParsed) {
+				$callback();
 			}
-
-			return http_response_code(404);
+			return;
 		}
 
-		public static function get($url, $callback) {
-			self::route($url, 'GET', $callback);
+		$uriArray = explode('/', $routeParsed);
+		foreach ($routeParams as $index => $param) {
+			$routeArray[$index] = $uriArray[$index] ?? null;
+			$routeParams[$index] = $routeArray[$index] ?? null;
 		}
 
-		public static function post($url, $callback) {
-			self::route($url, 'POST', $callback);
+		$uriStr = implode('/', $uriArray);
+		$routeStr = implode('/', $routeArray);
+		if ($method === $_SERVER['REQUEST_METHOD'] && $uriStr === $routeStr) {
+			return $callback(...$routeParams);
 		}
 
-		public static function put($url, $callback) {
-			self::route($url, 'PUT', $callback);
-		}
-
-		public static function delete($url, $callback) {
-			self::route($url, 'DELETE', $callback);
-		}
+		return header('HTTP/1.0 404 Not Found');
 	}
+
+	/**
+	 * Route function wrapper for "GET" method.
+	 *
+	 * @param string $route URL path
+	 * @param callable $callback Controller's method, which will be called if the url matches
+	 */
+	public static function get(string $route, callable $callback): void
+	{
+		self::route('GET', $route, $callback);
+	}
+
+	/**
+	 * Route function wrapper for "POST" method.
+	 *
+	 * @param string $route URL path
+	 * @param callable $callback Controller's method, which will be called if the url matches
+	 */
+	public static function post(string $route, callable $callback): void
+	{
+		self::route('POST', $route, $callback);
+	}
+}

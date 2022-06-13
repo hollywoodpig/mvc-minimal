@@ -1,40 +1,53 @@
 <?php
-	class Model {
-		protected $db;
+class Model
+{
+	/**
+	 * Instance of PDO class.
+	 */
+	private static $db = null;
 
-		public function __construct() {
-			require 'config/config.php';
-
-			$host = $config['host'];
-			$db = $config['db'];
-			$user = $config['user'];
-			$password = $config['password'];
-
-			try {
-				$this->db = new PDO("mysql:host=$config[host];dbname=$config[db]", "$config[user]", "$config[password]", [
-					PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-				]);
-			} catch (PDOException $e) {
-				echo $e;
-			}
+	/**
+	 * Function which sets up the database.
+	 *
+	 * @return void
+	 */
+	public static function __constructStatic(): void
+	{
+		if (!is_dir('database')) {
+			mkdir('database', 0777, true);
 		}
 
-		protected function fetch() {
-			return $this->fetch();
-		}
-
-		protected function fetchAll() {
-			return $this->fetchAll();
-		}
-
-		protected function query($query) {
-			return $this->db->query($query);
-		}
-
-		protected function execute($query, $args = []) {
-			$stmt = $this->db->prepare($query);
-			$stmt->execute($args);
-
-			return $stmt;
-		}
+		self::$db = new PDO("sqlite:$_SERVER[DOCUMENT_ROOT]/database/database.sqlite");
+		self::$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+		self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
+
+	/**
+	 * Simple database query, mostly for reading data from database.
+	 *
+	 * @access protected
+	 * @param string $query SQL query
+	 * @return object Actually it's an associative array
+	 */
+	protected static function query(string $query): object
+	{
+		return self::$db->query($query);
+	}
+
+	/**
+	 * The same query, but it performs more actions to database than read, and you can use variables.
+	 *
+	 * @access protected
+	 * @param string $query SQL query
+	 * @param array $vars Variables for the query
+	 * @return object Actually it's an associative array
+	 */
+	protected static function execute(string $query, array $vars = []): object
+	{
+		$stmt = self::$db->prepare($query);
+		$stmt->execute($vars);
+		return $stmt;
+	}
+}
+
+Model::__constructStatic();

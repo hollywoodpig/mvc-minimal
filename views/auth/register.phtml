@@ -1,0 +1,17 @@
+<?php
+$message = $_GET['message'] ?? '';
+?>
+
+<a style="display: inline-block; padding-top: 0.5rem;" href="/">Back</a>
+<h1>Register page</h1>
+<?php if (!empty($message)) : ?>
+	<p><?= $message ?></p>
+<?php endif; ?>
+<form method="post" style="display: grid; gap: 1rem; max-width: 20rem;">
+	<input required type="text" placeholder="Name" name="name">
+	<input required type="password" placeholder="Password" name="password">
+	<input required type="password" placeholder="Repeat password" name="repeat-password">
+	<input required type="text" placeholder="Bio (up to 200 characters)" name="bio">
+	<button>Register</button>
+</form>
+<a href="/login">Have an account?</a>
