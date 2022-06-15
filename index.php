@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/core/Router.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/core/utils/view.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/controllers/AuthController.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/controllers/UserController.php';
 
@@ -37,4 +38,10 @@ Router::get('/user/:id', function ($id) {
 
 Router::get('/profile', function () {
 	UserController::profile();
+});
+
+/* == common == */
+
+Router::get('/about', function () {
+	view('about');
 });

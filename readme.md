@@ -9,7 +9,7 @@ Please notice:
 - All your controllers and models classes must be static
 - All templates must have `.phtml` file extension
 - This "framework" uses sqlite and it creates automatically at `./database/database.sqlite`
-- Your database should setup automatically. If needed for your model, just add a `__constructStatic` method with `create table if not exists ... (...)` statement
+- Your database should setup automatically. You might add `__constructStatic` method with `create table if not exists ... (...)` statement and call it after the class definition
 
 ## Setup project
 
