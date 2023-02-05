@@ -1,12 +1,11 @@
 <?php
 
 /**
- * Render view directly without creating a controller method.
+ * Render view without a controller method.
  *
  * @param string $view Template name
- * @return void
  */
-function view(string $view): void
+function view(string $view)
 {
 	include "$_SERVER[DOCUMENT_ROOT]/views/$view.phtml";
 }

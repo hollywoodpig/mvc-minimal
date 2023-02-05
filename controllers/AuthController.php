@@ -50,11 +50,13 @@ class AuthController extends Controller
 		if (empty($name) || empty($password) || empty($repeatPassword) || empty($bio)) {
 			return self::redirect('/register', ['message' => 'You didn\'t fill all fields.']);
 		}
+
 		if ($password !== $repeatPassword) {
 			return self::redirect('/register', ['message' => 'Passwords don\'t match.']);
 		}
 
 		AuthModel::register($name, md5($password), $bio);
+
 		return self::redirect('/login');
 	}
 
@@ -79,14 +81,17 @@ class AuthController extends Controller
 		}
 
 		$user = AuthModel::login($name);
+
 		if (empty($user)) {
 			return self::redirect('/login', ['message' => 'This user doesn\'t exist.']);
 		}
+
 		if (md5($password) !== $user['password']) {
 			return self::redirect('/login', ['message' => 'Wrong password.']);
 		}
 
 		$_SESSION['user'] = $user;
+
 		return self::redirect('/profile');
 	}
 
@@ -95,6 +100,7 @@ class AuthController extends Controller
 	public static function logout()
 	{
 		unset($_SESSION['user']);
+
 		return self::redirect('/');
 	}
 }

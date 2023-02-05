@@ -9,12 +9,14 @@ class UserController extends Controller
 	{
 		$logged = AuthController::logged();
 		$users = UserModel::getUsers();
+
 		self::render('home', ['logged' => $logged, 'users' => $users]);
 	}
 
 	public static function userDetails(string $id)
 	{
 		$user = UserModel::getUser($id);
+
 		if (empty($user)) {
 			return self::redirect('/');
 		}
@@ -29,6 +31,7 @@ class UserController extends Controller
 		}
 
 		$user = AuthController::getUser();
+
 		self::render('profile', ['user' => $user]);
 	}
 }

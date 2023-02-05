@@ -6,17 +6,17 @@ Only basic PHP. It can be useful if you're a beginner and somehow not allowed to
 
 Please notice:
 
-- All your controllers and models classes must be static
-- All templates must have `.phtml` file extension
-- This "framework" uses sqlite and it creates automatically at `./database/database.sqlite`
-- Your database should setup automatically. You might add `__constructStatic` method with `create table if not exists ... (...)` statement and call it after the class definition
+-   All your controllers and models classes must be static
+-   All templates must have `.phtml` file extension
+-   This "framework" relies on sqlite and the file's being created automatically at `./database/database.sqlite`
+-   Your database structure sets up automatically too: just add a `__constructStatic` method with the `create table if not exists ... (...)` statement to your models
 
 ## Setup project
 
-In order to setup your project, you should do:
+In order to setup your project, you should:
 
-- Type `php -S localhost:8000` in terminal (or use a dev server)
-- That's all :)
+-   Use any web server out there
+-   That's all :)
 
 ## Why's this code so awful?
 
